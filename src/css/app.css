@@ -1,0 +1,51 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Poppins:wght@300;400;700&display=swap');
+
+body{
+    background-color: #272727;
+    color: #ffffff;
+    font-family: "Poppins", sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6{
+    font-family: "Oswald", sans-serif;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+#app{
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+body>#app>main{
+    flex: 1;
+}
+
+
+/* Bootstrap changes */
+
+.btn-primary {
+    --bs-btn-color: #fff;
+    --bs-btn-bg: #5E21DB;
+    --bs-btn-border-color: #5E21DB;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: #4909c9;
+    --bs-btn-hover-border-color: #3a07a1;
+    --bs-btn-focus-shadow-rgb: 49,132,253;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: #4909c9;
+    --bs-btn-active-border-color: #4909c9;
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: #fff;
+    --bs-btn-disabled-bg: #5E21DB;
+    --bs-btn-disabled-border-color: #5E21DB;
+}
+
+.bg-dark{
+    background-color: #1D1D1D !important;
+}
+
+.text-primary{
+    color: #7532FF !important;
+}
