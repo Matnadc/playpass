@@ -3,7 +3,8 @@ import Home from "../pages/Home.vue";
 import Chat from "../pages/Chat.vue";
 import Login from "../pages/Login.vue";
 import Register from "../pages/Register.vue";
-import Profile from "../pages/Profile.vue";
+import MyProfile from "../pages/MyProfile.vue";
+import UserProfile from "../pages/UserProfile.vue";
 import { subscribeToAuthChanges } from "../services/auth";
 
 const routes = [
@@ -27,8 +28,12 @@ const routes = [
         path: "/register",
     },
     {
-        component: Profile,
+        component: MyProfile,
         path: "/profile",
+    },
+    {
+        component: UserProfile,
+        path: "/user/:id",
     },
 ]
 

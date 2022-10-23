@@ -5,14 +5,16 @@ import { db } from '../services/firestore.js';
  * 
  * Graba un mensaje del chat
  * 
+ * @param {string} userId
  * @param {string} displayName
  * @param {string} text
  * 
  */
 
-export function saveChatMessage({ displayName, text }) {
+export function saveChatMessage({ userId, displayName, text }) {
     const chatRef = collection(db, "chat");
     return addDoc(chatRef, {
+        userId,
         displayName,
         text,
         created_at: serverTimestamp(),

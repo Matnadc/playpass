@@ -28,7 +28,6 @@ import AlertNotification from '../components/AlertNotification.vue';
 import { useRouter } from 'vue-router';
 import { ref } from 'vue';
 import useNotification from '../composition/useNotification';
-import Loader from '../components/Loader.vue';
 import SubmitButton from '../components/SubmitButton.vue';
 
 const router = useRouter();

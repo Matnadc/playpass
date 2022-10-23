@@ -10,9 +10,15 @@
                     </div>
                     <div v-else>
                         <ul class="p-0">
-                            <li v-for="message in messages" class="list-unstyled mb-4"><span
-                                    class="fw-bold badge bg-primary">({{ formatDate(message.created_at) }}) {{
-                                    message.displayName }}:</span> {{ message.text }} </li>
+                            <li v-for="message in messages" class="list-unstyled mb-4">
+                                <span class="fw-bold badge bg-primary">
+                                    ({{ formatDate(message.created_at) }})
+                                    <router-link v-if="message.userId !== user.id" :to="`/user/${message.userId}`">
+                                        {{ message.displayName }}</router-link>
+                                    <template v-else>{{ message.displayName }}</template>:
+                                </span>
+                                {{ message.text }}
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -80,6 +86,7 @@ function useChatForm() {
         saveChatMessage({
             ...newMessage.value,
             displayName: username.value,
+            userId: user.value.id
         });
         newMessage.value.text = "";
     }

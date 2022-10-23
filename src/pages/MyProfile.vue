@@ -5,18 +5,7 @@
         <AlertNotification v-if="status.text !== ''" :type="status.type" closable @close="handleCloseAlert">
             {{ status.text }}
         </AlertNotification>
-        <dl class="mb-3">
-            <dt>Email</dt>
-            <dd>{{ user.email }}</dd>
-
-            <dt>Nombre de usuario</dt>
-            <dd>
-                <span class="badge bg-primary">
-                    <template v-if="user.displayName">{{ user.displayName }}</template>
-                    <template v-else>No especificado</template>
-                </span>
-            </dd>
-        </dl>
+        <UserProfileDetails :user="user"/>
     </section>
     <div class="separator my-4"></div>
     <section>
@@ -38,8 +27,8 @@ import AlertNotification from '../components/AlertNotification.vue';
 import useAuth from "../composition/useAuth.js";
 import useNotification from "../composition/useNotification.js";
 import { ref } from 'vue';
-import Loader from '../components/Loader.vue';
 import SubmitButton from '../components/SubmitButton.vue';
+import UserProfileDetails from '../components/UserProfileDetails.vue';
 
 const { user } = useAuth();
 const { form, isLoading, status, handleProfileUpdate, handleCloseAlert } = useProfileForm();
