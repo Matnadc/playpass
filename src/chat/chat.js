@@ -16,7 +16,7 @@ export function saveChatMessage({ name, text }) {
         name,
         text,
         created_at: serverTimestamp(),
-    })
+    });
 }
 
 /**
@@ -36,7 +36,7 @@ export function subscribeToChatMessages(callback) {
         const docs = snapshot.docs.map(item => {
             return {
                 ...item.data(),
-                created_at: item.data().created_at.toDate(),
+                created_at: item.data().created_at?.toDate(),
             }
         });
         callback(docs);

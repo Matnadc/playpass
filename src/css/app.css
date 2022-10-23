@@ -22,6 +22,18 @@ body>#app>main{
     flex: 1;
 }
 
+.btn-reset{
+    border: none;
+    background: none;
+    color: #ffffff;
+    text-transform: uppercase;
+}
+
+.separator{
+    background: #ffffff;
+    height: 1px;
+    width: 100%;
+}
 
 /* Bootstrap changes */
 
@@ -48,4 +60,8 @@ body>#app>main{
 
 .text-primary{
     color: #7532FF !important;
+}
+
+.bg-primary{
+    background-color: #5E21DB !important;
 }
