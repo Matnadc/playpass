@@ -1,4 +1,5 @@
 import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { createUserProfile, updateUserProfile as updateUserProfileDatabase } from "./user_profiles.js";
 
 const auth = getAuth();
 
@@ -11,25 +12,25 @@ export const AUTH_ERROR_MESSAGES = {
 let userData = {
     id: null,
     email: null,
-    name: null,
+    displayName: null,
 }
 
-if(localStorage.getItem("user") !== null){
+if (localStorage.getItem("user") !== null) {
     userData = JSON.parse(localStorage.getItem("user"));
 }
 
 onAuthStateChanged(auth, user => {
-    if(user) {
+    if (user) {
         userData = {
             id: user.uid,
             email: user.email,
-            name: user.name,
+            displayName: user.displayName,
         }
     } else {
         userData = {
             id: null,
             email: null,
-            name: null,
+            displayName: null,
         }
     }
 
@@ -37,30 +38,35 @@ onAuthStateChanged(auth, user => {
     notifyAll();
 });
 
-export function login({ email, password }){
+export function login({ email, password }) {
     return signInWithEmailAndPassword(auth, email, password);
 }
 
-export function logout(){
+export function logout() {
     return signOut(auth);
 }
 
-export function updateUserProfile({name}){
-    return updateProfile(auth.currentUser, name).then(() => {
-        userData = {
-            ...userData,
-            name,
-        }
-        notifyAll();
-    });
+export async function updateUserProfile({ displayName }) {
+    const authPromise = updateProfile(auth.currentUser, { displayName });
+    const profilePromise = updateUserProfileDatabase(userData.id, {displayName});
+
+    await Promise.all([authPromise, profilePromise]);
+
+    userData = {
+        ...userData,
+        displayName,
+    }
+    
+    notifyAll();
 }
 
-export function register({email, password}){
-    return createUserWithEmailAndPassword(auth, email, password);
+export async function register({ email, password }) {
+    const { user } = await createUserWithEmailAndPassword(auth, email, password);
+    return createUserProfile(user.uid, { email });
 }
 
 let observers = [];
-export function subscribeToAuthChanges(callback){
+export function subscribeToAuthChanges(callback) {
     observers.push(callback);
     notify(callback);
     return () => {
@@ -68,10 +74,10 @@ export function subscribeToAuthChanges(callback){
     }
 }
 
-function notify(callback){
+function notify(callback) {
     callback({ ...userData });
 }
 
-function notifyAll(){
+function notifyAll() {
     observers.forEach(callback => notify(callback));
 }

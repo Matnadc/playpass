@@ -20,7 +20,6 @@ defineProps({
 defineEmits(['close']);
 </script>
 
-
 <style scoped>
 
 </style>

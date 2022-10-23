@@ -12,7 +12,7 @@
             <dt>Nombre de usuario</dt>
             <dd>
                 <span class="badge bg-primary">
-                    <template v-if="user.name">{{ user.name }}</template>
+                    <template v-if="user.displayName">{{ user.displayName }}</template>
                     <template v-else>No especificado</template>
                 </span>
             </dd>
@@ -23,65 +23,54 @@
         <h2>Editar mis datos</h2>
         <form action="#" method="post" @submit.prevent="handleProfileUpdate">
             <div class="mb-3">
-                <label for="name" class="form-label">Nombre de usuario</label>
-                <input type="text" id="name" name="name" class="form-control rounded-0" v-model="form.name">
+                <label for="displayName" class="form-label">Nombre de usuario</label>
+                <input type="text" id="displayName" name="displayName" class="form-control rounded-0"
+                    v-model="form.displayName" :disabled="isLoading">
             </div>
-            <button type="submit" class="btn btn-primary rounded-0">Actualizar</button>
+            <SubmitButton :isLoading="isLoading">Actualizar datos</SubmitButton>
         </form>
     </section>
 </template>
 
-<script>
-import { subscribeToAuthChanges, updateUserProfile } from '../services/auth';
+<script setup>
+import { updateUserProfile } from '../services/auth';
 import AlertNotification from '../components/AlertNotification.vue';
+import useAuth from "../composition/useAuth.js";
+import useNotification from "../composition/useNotification.js";
+import { ref } from 'vue';
+import Loader from '../components/Loader.vue';
+import SubmitButton from '../components/SubmitButton.vue';
 
-export default {
-    name: "Profile",
-    data: () => ({
-        form: {
-            name: "",
-        },
-        user: {
-            id: null,
-            email: null,
-            name: null,
-        },
-        status: {
-            type: "success",
-            text: "",
-        },
-        unsubscribeFn: () => { }
-    }),
-    methods: {
-        handleProfileUpdate() {
-            updateUserProfile({ name: this.form.name })
-                .then(() => {
-                this.status = {
-                    ...this.status,
+const { user } = useAuth();
+const { form, isLoading, status, handleProfileUpdate, handleCloseAlert } = useProfileForm();
+
+function useProfileForm() {
+    const form = ref({ displayName: "" });
+    const isLoading = ref(false);
+    const { status, close } = useNotification();
+
+    function handleProfileUpdate() {
+        isLoading.value = true;
+        updateUserProfile({ displayName: form.value.displayName })
+            .then(() => {
+                isLoading.value = false;
+                status.value = {
+                    ...status.value,
                     type: "success",
                     text: "El perfil se actualizó correctamente."
                 };
             })
-                .catch((err) => {
-                this.status = {
+            .catch((err) => {
+                isLoading.value = true;
+                status.value = {
                     type: "danger",
                     text: err,
                 };
             });
-        },
-        handleCloseAlert() {
-            this.status.text = "";
-        }
+    };
 
-    },
-    mounted() {
-        this.unsubscribeFn = subscribeToAuthChanges(newUserData => this.user = newUserData);
-        this.form.name = this.user.name;
-    },
-    unmounted() {
-        this.unsubscribeFn();
-    },
-    components: { AlertNotification }
+
+    return { form, isLoading, status, handleProfileUpdate, handleCloseAlert: close }
 }
 </script>
 

@@ -51,29 +51,20 @@
     </nav>
 </template>
 
-<script>
-import { subscribeToAuthChanges, logout } from "../services/auth.js";
+<script setup>
+import { useRouter } from "vue-router";
+import { logout } from "../services/auth.js";
+import useAuth from "../composition/useAuth.js";
 
-export default {
-    name: "NavBar",
-    data: () => ({
-        user: {
-            id: null,
-            email: null
-        }
-    }),
-    methods: {
-        handleLogout() {
-            logout();
-            this.$router.push({
-                path: "/login"
-            });
-        }
-    },
-    mounted() {
-        subscribeToAuthChanges(user => this.user = user)
-    }
-}
+const router = useRouter();
+const { user } = useAuth();
+
+function handleLogout() {
+    logout();
+    router.push({
+        path: "/games"
+    })
+} 
 </script>
 
 <style scoped>

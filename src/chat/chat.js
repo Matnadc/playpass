@@ -5,15 +5,15 @@ import { db } from '../services/firestore.js';
  * 
  * Graba un mensaje del chat
  * 
- * @param {string} name
+ * @param {string} displayName
  * @param {string} text
  * 
  */
 
-export function saveChatMessage({ name, text }) {
+export function saveChatMessage({ displayName, text }) {
     const chatRef = collection(db, "chat");
     return addDoc(chatRef, {
-        name,
+        displayName,
         text,
         created_at: serverTimestamp(),
     });
@@ -24,7 +24,7 @@ export function saveChatMessage({ name, text }) {
  * Recibe un callback por parámetro con la función a ejecutar cada vez que cambien los msj.
  * El callback recibe un array como argumento con los msjs.
  * 
- * @param {(docs: {name: string, text: string, created_at: FieldValue}[]) => void } callback
+ * @param {(docs: {displayName: string, text: string, created_at: FieldValue}[]) => void } callback
  * @returns {Unsusbscribe}
  */
 export function subscribeToChatMessages(callback) {

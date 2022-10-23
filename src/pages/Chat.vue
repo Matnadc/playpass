@@ -12,7 +12,7 @@
                         <ul class="p-0">
                             <li v-for="message in messages" class="list-unstyled mb-4"><span
                                     class="fw-bold badge bg-primary">({{ formatDate(message.created_at) }}) {{
-                                    message.name }}:</span> {{ message.text }} </li>
+                                    message.displayName }}:</span> {{ message.text }} </li>
                         </ul>
                     </div>
                 </div>
@@ -37,60 +37,56 @@
     </section>
 </template>
 
-<script>
+<script setup>
+import { onMounted, onUnmounted, ref } from "vue";
+import Loader from "../components/Loader.vue";
 import { subscribeToChatMessages, saveChatMessage } from "../chat/chat";
 import { dateToString } from "../helpers/date.js";
-import Loader from "../components/Loader.vue";
-import { subscribeToAuthChanges } from "../services/auth";
+import useAuth from "../composition/useAuth.js";
 
-export default {
-    name: "Chat",
-    data: () => ({
-        messages: [],
-        newMessage: {
-            name: "",
-            text: "",
-        },
-        user:{
-            id: null,
-            email: null,
-            name: null,
-        },
-        isLoading: true,
-        unsbscribeFn: () => { },
-        unsbscribeAuthFn: () => { }
-    }),
-    computed: {
-        username() {
-            return this.user.name || this.user.email;
-        }
-    },
-    methods: {
-        formatDate(date) {
-            return dateToString(date);
-        },
-        save() {
-            saveChatMessage({
-                ...this.newMessage,
-                name: this.username,
-            });
-            this.newMessage.name = "",
-                this.newMessage.text = "";
-        }
-    },
-    mounted() {
-        this.unsbscribeFn = subscribeToChatMessages(newMessages => {
-            this.messages = newMessages;
-            this.isLoading = false;
+//ref en Vue es una suerte de useState en React.
+const { messages, isLoading } = useChat();
+const { newMessage, save } = useChatForm();
+const { user, username } = useAuth();
+
+
+function formatDate(date) {
+    return dateToString(date);
+};
+
+function useChat() {
+    const messages = ref([]);
+    const isLoading = ref(true);
+    let unsubscribe;
+
+    onMounted(() => {
+        unsubscribe = subscribeToChatMessages(newMessages => {
+            messages.value = newMessages;
+            isLoading.value = false;
         });
-        this.unsbscribeAuthFn = subscribeToAuthChanges(newUserData => this.user = newUserData);
-    },
-    unmounted() {
-        this.unsbscribeFn();
-        this.unsbscribeAuthFn();
-    },
-    components: { Loader }
+    });
+
+    onUnmounted(() => {
+        unsubscribe();
+    });
+
+    return { messages, isLoading }
 }
+
+function useChatForm() {
+    const newMessage = ref({ text: "" });
+
+    function save() {
+        saveChatMessage({
+            ...newMessage.value,
+            displayName: username.value,
+        });
+        newMessage.value.text = "";
+    }
+
+    return { newMessage, save };
+}
+
 </script>
 
 <style scoped>

@@ -22,47 +22,47 @@
     </section>
 </template>
 
-<script>
+<script setup>
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import useNotification from '../composition/useNotification';
+import AlertNotification from "../components/AlertNotification.vue";
 import { AUTH_ERROR_MESSAGES, login } from '../services/auth';
-import AlertNotification from '../components/AlertNotification.vue';
 
-export default {
-    name: "Login",
-    data: () => ({
-        user: {
-            email: "",
-            password: "",
-        },
-        status: {
-            type: "success",
-            text: "",
-        }
-    }),
-    methods: {
-        handleSubmit() {
-            login({
-                ...this.user,
-            })
-                .then(() => {
-                    this.status = {
-                        type: "success",
-                        text: "Sesión iniciada con éxito.",
-                    };
-                    this.$router.push({
-                        path: "/profile"
-                    });
-                })
-                .catch(err => {
-                    console.error("error: ", err.code, err.message);
-                    this.status = {
-                        type: "danger",
-                        text: AUTH_ERROR_MESSAGES[err.code] || err.code,
-                    };
-                });
-        }
-    },
-    components: { AlertNotification }
+const router = useRouter();
+const { user, status, handleSubmit } = useLoginForm();
+
+function useLoginForm() {
+    const user = ref({
+        email: "",
+        password: "",
+    });
+
+    const { status } = useNotification();
+
+    function handleSubmit(){
+        login({
+            ...user.value,
+        })
+        .then(() => {
+            status.value = {
+                type: "success",
+                text: "Sesión iniciada con éxito.",
+            };
+            router.push({
+                path: "/profile"
+            });
+        })
+        .catch(err => {
+            status.value = {
+                type: "danger",
+                text: AUTH_ERROR_MESSAGES[err.code] || err.code,
+            }
+        });
+    }
+    return { user, status, handleSubmit };
 }
+
 </script>
 
 
