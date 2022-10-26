@@ -1,5 +1,5 @@
 <template>
-    <section>
+    <section class="container-md">
         <!-- TODO: cambiar el cerrar sesión para que esté acá -->
         <h1 class="mb-3">Mi perfil</h1>
         <AlertNotification v-if="status.text !== ''" :type="status.type" closable @close="handleCloseAlert">
@@ -7,8 +7,8 @@
         </AlertNotification>
         <UserProfileDetails :user="user"/>
     </section>
-    <div class="separator my-4"></div>
-    <section>
+    <div class="separator my-4 container-md"></div>
+    <section class="container-md mb-4">
         <h2>Editar mis datos</h2>
         <form action="#" method="post" @submit.prevent="handleProfileUpdate">
             <div class="mb-3">
@@ -57,7 +57,6 @@ function useProfileForm() {
                 };
             });
     };
-
 
     return { form, isLoading, status, handleProfileUpdate, handleCloseAlert: close }
 }

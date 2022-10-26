@@ -66,3 +66,7 @@ body>#app>main{
 .bg-primary{
     background-color: #5E21DB !important;
 }
+
+.border-primary {
+    border-color: #5E21DB !important;
+}

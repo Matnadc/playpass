@@ -2,7 +2,7 @@
     <header>
         <NavBar />
     </header>
-    <main class="container-md py-3">
+    <main>
         <router-view />
     </main>
 

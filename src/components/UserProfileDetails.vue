@@ -17,6 +17,7 @@
 defineProps({
     user: {
         type: Object,
-    }
+    },
+    
 });
 </script>

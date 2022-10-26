@@ -1,9 +1,8 @@
 <template>
-    <section>
-        <h1 class="mb-3">Proveedor</h1>
+    <section class="container-md">
+        <h1 class="mb-3">Soporte técnico</h1>
         <div class="row">
             <div class="col-8">
-                <h2 class="mb-3">Sala de chat</h2>
                 <div class="messages">
                     <div v-if="isLoading">
                         <Loader />
@@ -11,13 +10,12 @@
                     <div v-else>
                         <ul class="p-0">
                             <li v-for="message in messages" class="list-unstyled mb-4">
-                                <span class="fw-bold badge bg-primary">
-                                    ({{ formatDate(message.created_at) }})
-                                    <router-link v-if="message.userId !== user.id" :to="`/user/${message.userId}`">
+                                <span class="fw-bold p-2 me-3 bg-primary ">
+                                    <!-- ({{ formatDate(message.created_at) }}) -->
+                                    <router-link v-if="message.userId !== user.id" :to="`/user/${message.userId}`" class="text-reset">
                                         {{ message.displayName }}</router-link>
-                                    <template v-else>{{ message.displayName }}</template>:
+                                    <template v-else>{{ message.displayName }}</template>
                                 </span>
-                                {{ message.text }}
                             </li>
                         </ul>
                     </div>
@@ -47,7 +45,7 @@
 import { onMounted, onUnmounted, ref } from "vue";
 import Loader from "../components/Loader.vue";
 import { subscribeToChatMessages, saveChatMessage } from "../chat/chat";
-import { dateToString } from "../helpers/date.js";
+// import { dateToString } from "../helpers/date.js";
 import useAuth from "../composition/useAuth.js";
 
 //ref en Vue es una suerte de useState en React.
@@ -95,7 +93,3 @@ function useChatForm() {
 }
 
 </script>
-
-<style scoped>
-
-</style>

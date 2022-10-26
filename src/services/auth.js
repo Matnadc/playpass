@@ -1,5 +1,5 @@
 import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { createUserProfile, updateUserProfile as updateUserProfileDatabase } from "./user_profiles.js";
+import { createUserProfile, updateUserProfile as updateUserProfileDatabase } from "./user-profiles.js";
 
 const auth = getAuth();
 
@@ -13,6 +13,7 @@ let userData = {
     id: null,
     email: null,
     displayName: null,
+    rol: null
 }
 
 if (localStorage.getItem("user") !== null) {
@@ -25,6 +26,7 @@ onAuthStateChanged(auth, user => {
             id: user.uid,
             email: user.email,
             displayName: user.displayName,
+            rol: user.rol
         }
     } else {
         userData = {
