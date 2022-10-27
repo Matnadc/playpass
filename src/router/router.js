@@ -1,14 +1,14 @@
 import { createRouter, createWebHashHistory } from "vue-router";
 import Home from "../pages/Home.vue";
 import Games from "../pages/Games.vue";
-import Chat from "../pages/Chat.vue";
+import Support from "../pages/Support.vue";
 import Login from "../pages/Login.vue";
 import Register from "../pages/Register.vue";
 import MyProfile from "../pages/MyProfile.vue";
 import UserProfile from "../pages/UserProfile.vue";
 import PrivateChat from "../pages/PrivateChat.vue";
-import AdminPanel from "../pages/AdminPanel.vue";
 import Join from "../pages/Join.vue";
+import AdminPanel from "../pages/AdminPanel.vue";
 import { subscribeToAuthChanges } from "../services/auth";
 
 const routes = [
@@ -25,8 +25,8 @@ const routes = [
         path: "/join",
     },
     {
-        component: Chat,
-        path: "/chat",
+        component: Support,
+        path: "/support",
         meta: {
             requiresAuth: true,
         }

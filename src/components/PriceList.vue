@@ -8,7 +8,7 @@
                     <li v-for="details in item.details" class="mb-3">{{ details }}</li>
                 </ul>
             </div>
-            <p>Obtener PlayPass {{ item.name }} por AR${{ item.price }}</p>
+            <p class="btn btn-primary rounded-0 fw-bold">Obtener PlayPass {{ item.name }} por AR${{ item.price }}/mes >></p>
         </li>
     </ul>
 </template>

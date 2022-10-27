@@ -1,27 +1,29 @@
 <template>
-    <Loader v-if="isLoading" />
-    <section v-else>
-        <h1 class="mb-3">Chat privado con {{ user.displayName || user.email }}</h1>
+    <section class="container-md">
+        <Loader v-if="isLoading" />
+        <div v-else>
+            <h1 class="mb-3">Chat privado con {{ user.displayName || user.email }}</h1>
 
-        <h2 class="visually-hidden">Mensajes enviados</h2>
+            <h2 class="visually-hidden">Mensajes enviados</h2>
 
-        <div class="chat mb-3">
-            <ul class="p-0">
-                <li v-for="message in messages" class="list-unstyled mb-4">
-                    <span class="fw-bold badge bg-primary" >
-                        ({{ dateToString(message.created_at) }})
-                        {{ message.from }}:
-                    </span> {{ message.text }}
-                </li>
-            </ul>
+            <div class="chat mb-3">
+                <ul class="p-0">
+                    <li v-for="message in messages" class="list-unstyled mb-4">
+                        <span class="fw-bold badge bg-primary">
+                            ({{ dateToString(message.created_at) }})
+                            {{ message.from }}:
+                        </span> {{ message.text }}
+                    </li>
+                </ul>
+            </div>
+
+            <h2 class="visually-hidden">Enviar mensaje</h2>
+            <form action="#" method="post" @submit.prevent="handleSubmit">
+                <label for="message" class="visually-hidden">Mensaje</label>
+                <textarea id="message" class="form-control mb-3 rounded-0" placeholder="Escribí un mensaje aquí" v-model="message"></textarea>
+                <button class="btn btn-primary rounded-0" type="submit">Enviar</button>
+            </form>
         </div>
-
-        <h2 class="visually-hidden">Enviar mensaje</h2>
-        <form action="#" method="post" @submit.prevent="handleSubmit">
-            <label for="message" class="visually-hidden">Mensaje</label>
-            <textarea id="message" class="form-control mb-3 rounded-0" v-model="message"></textarea>
-            <button class="btn btn-primary rounded-0" type="submit">Enviar</button>
-        </form>
     </section>
 </template>
 

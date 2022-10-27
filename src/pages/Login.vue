@@ -1,7 +1,7 @@
 <template>
-    <section class="py-5">
+    <section class="py-5 container-md">
         <h1 class="text-center mb-3">Iniciar Sesión</h1>
-        <div class="px-5">
+        <div>
             <AlertNotification v-if="status.text !== ''" :type="status.type">
                 {{ status.text }}
             </AlertNotification>

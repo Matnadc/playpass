@@ -4,7 +4,6 @@
 
         <div>
             <h2>Opciones de contratación</h2>
-
             <Loader v-if="isLoading" />
             <div v-else>
                 <PriceList :pricing="pricing" />

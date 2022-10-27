@@ -1,20 +1,20 @@
 <template>
     <section class="container-md">
-        <h1 class="mb-3">Soporte técnico</h1>
+        <h1 class="mb-3">Chat global (Proveedores)</h1>
         <div class="row">
-            <div class="col-8">
+            <div class="col-8 bg-dark p-4 mh-fix mb-4">
                 <div class="messages">
                     <div v-if="isLoading">
                         <Loader />
                     </div>
                     <div v-else>
                         <ul class="p-0">
-                            <li v-for="message in messages" class="list-unstyled mb-4">
-                                <span class="fw-bold p-2 me-3 bg-primary ">
-                                    <!-- ({{ formatDate(message.created_at) }}) -->
+                            <li v-for="message in messages" class="list-unstyled mb-4 ">
+                                <span class="fw-bold p-2 d-flex align-items-center">  
+                                    <span class="badge bg-primary me-2">({{ formatDate(message.created_at) }})</span>
                                     <router-link v-if="message.userId !== user.id" :to="`/user/${message.userId}`" class="text-reset">
-                                        {{ message.displayName }}</router-link>
-                                    <template v-else>{{ message.displayName }}</template>
+                                        {{ message.displayName }}: {{ message.text }}</router-link>
+                                    <template v-else>{{ message.displayName }}: {{ message.text }}</template>
                                 </span>
                             </li>
                         </ul>
@@ -45,7 +45,7 @@
 import { onMounted, onUnmounted, ref } from "vue";
 import Loader from "../components/Loader.vue";
 import { subscribeToChatMessages, saveChatMessage } from "../chat/chat";
-// import { dateToString } from "../helpers/date.js";
+import { dateToString } from "../helpers/date.js";
 import useAuth from "../composition/useAuth.js";
 
 //ref en Vue es una suerte de useState en React.
@@ -93,3 +93,10 @@ function useChatForm() {
 }
 
 </script>
+
+<style>
+.mh-fix{
+    max-height: 600px;
+    overflow-y: scroll;
+}
+</style>

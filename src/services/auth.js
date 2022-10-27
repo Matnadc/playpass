@@ -13,7 +13,6 @@ let userData = {
     id: null,
     email: null,
     displayName: null,
-    rol: null
 }
 
 if (localStorage.getItem("user") !== null) {
@@ -26,7 +25,6 @@ onAuthStateChanged(auth, user => {
             id: user.uid,
             email: user.email,
             displayName: user.displayName,
-            rol: user.rol
         }
     } else {
         userData = {

@@ -13,35 +13,35 @@
         <div class="container-md collapse navbar-collapse flex-wrap" id="menu">
             <ul class="navbar-nav justify-content-md-between w-100 align-items-end align-items-lg-center py-4">
                 <li class="nav-item">
-                    <router-link to="/games" class="nav-link">Juegos {{ user.photoURL}}</router-link>
+                    <router-link to="/games" class="nav-link">Juegos {{ user.photoURL }}</router-link>
                 </li>
                 <li class="nav-item">
                     <router-link to="/join" class="nav-link fw-bold btn btn-primary rounded-0 px-3">Unite Ahora
                     </router-link>
                 </li>
                 <li class="nav-item">
-                    <router-link to="/chat" class="nav-link">Soporte</router-link>
+                    <router-link to="/support" class="nav-link">Soporte</router-link>
                 </li>
                 <template v-if="user.id === null">
-                    
+
                     <li class="nav-item">
                         <router-link to="/login" class="nav-link">Iniciar Sesión</router-link>
                     </li>
                     <li class="nav-item">
                         <router-link to="/register" class="nav-link">Registrarme</router-link>
                     </li>
-                   
+
                 </template>
                 <template v-else>
                     <li class="nav-item">
-                    <router-link to="/admin" class="nav-link">Panel de administración</router-link>
+                        <router-link to="/admin" class="nav-link">Panel de administración</router-link>
                     </li>
                     <li class="nav-item">
                         <router-link to="/profile" class="nav-link nav-link">Mi perfil</router-link>
                     </li>
                     <form action="#" method="post" @submit.prevent="handleLogout">
                         <button type="submit" class="btn-reset fw-light text-end">Cerrar sesión <span class="">({{
-                        user.email
+                                user.email
                         }})</span></button>
                     </form>
                 </template>
@@ -62,7 +62,7 @@ function handleLogout() {
     logout();
     router.push({
         path: "/home"
-        })
+    })
 }
 </script>
 
