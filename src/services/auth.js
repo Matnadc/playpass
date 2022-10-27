@@ -7,6 +7,8 @@ export const AUTH_ERROR_MESSAGES = {
     "auth/invalid-email": "El email ingresado no existe en nuestros registros.",
     "auth/internal-error": "Los datos ingresados no son correctos. Revisá el email y el password.",
     "auth/wrong-password": "La contraseña no es correcta.",
+    "auth/user-not-found": "Email no registrado.",
+    "auth/weak-password": "La contraseña es demasiado débil."
 }
 
 let userData = {
